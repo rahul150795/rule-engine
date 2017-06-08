@@ -400,69 +400,69 @@ h1 {
   <block type="cart_item" x="20" y="-382">
     <statement name="cart">
       <block type="variables_set">
-        <field name="VAR"></field>
+        <field name="VAR">product</field>
         <value name="VALUE">
           <block type="lists_create_with">
             <mutation items="3"></mutation>
             <value name="ADD0">
               <block type="product_name">
-                <field name="p_name"> </field>
+                <field name="p_name"> name</field>
               </block>
             </value>
             <value name="ADD1">
               <block type="product_name">
-                <field name="p_name"> </field>
+                <field name="p_name"> name</field>
               </block>
             </value>
             <value name="ADD2">
               <block type="product_name">
-                <field name="p_name"> </field>
+                <field name="p_name"> name</field>
               </block>
             </value>
           </block>
         </value>
         <next>
           <block type="variables_set">
-            <field name="VAR"></field>
+            <field name="VAR">price</field>
             <value name="VALUE">
               <block type="lists_create_with">
                 <mutation items="3"></mutation>
                 <value name="ADD0">
                   <block type="product_price">
-                    <field name="p_price"></field>
+                    <field name="p_price">100</field>
                   </block>
                 </value>
                 <value name="ADD1">
                   <block type="product_price">
-                    <field name="p_price"></field>
+                    <field name="p_price">500</field>
                   </block>
                 </value>
                 <value name="ADD2">
                   <block type="product_price">
-                    <field name="p_price"></field>
+                    <field name="p_price">1000</field>
                   </block>
                 </value>
               </block>
             </value>
             <next>
               <block type="variables_set">
-                <field name="VAR"></field>
+                <field name="VAR">category</field>
                 <value name="VALUE">
                   <block type="lists_create_with">
                     <mutation items="3"></mutation>
                     <value name="ADD0">
                       <block type="product_category">
-                        <field name="NAME"></field>
+                        <field name="NAME">1</field>
                       </block>
                     </value>
                     <value name="ADD1">
                       <block type="product_category">
-                        <field name="NAME"></field>
+                        <field name="NAME">2</field>
                       </block>
                     </value>
                     <value name="ADD2">
                       <block type="product_category">
-                        <field name="NAME"></field>
+                        <field name="NAME">1</field>
                       </block>
                     </value>
                   </block>
@@ -477,18 +477,18 @@ h1 {
       <block type="sum_block">
         <statement name="sum">
           <block type="variables_set">
-            <field name="VAR"></field>
+            <field name="VAR">sum</field>
             <value name="VALUE">
               <block type="math_number">
-                <field name="NUM"></field>
+                <field name="NUM">0</field>
               </block>
             </value>
             <next>
               <block type="variables_set">
-                <field name="VAR"></field>
+                <field name="VAR">temp</field>
                 <value name="VALUE">
                   <block type="math_number">
-                    <field name="NUM"></field>
+                    <field name="NUM">1</field>
                   </block>
                 </value>
                 <next>
@@ -497,35 +497,35 @@ h1 {
                       <block type="lists_length">
                         <value name="VALUE">
                           <block type="variables_get">
-                            <field name="VAR"></field>
+                            <field name="VAR">price</field>
                           </block>
                         </value>
                       </block>
                     </value>
                     <statement name="DO">
                       <block type="variables_set">
-                        <field name="VAR"></field>
+                        <field name="VAR">sum</field>
                         <value name="VALUE">
                           <block type="math_arithmetic">
-                            <field name="OP"></field>
+                            <field name="OP">ADD</field>
                             <value name="A">
                               <block type="variables_get">
-                                <field name="VAR"></field>
+                                <field name="VAR">sum</field>
                               </block>
                             </value>
                             <value name="B">
                               <block type="lists_getIndex">
                                 <mutation statement="false" at="true"></mutation>
-                                <field name="MODE"></field>
-                                <field name="WHERE"></field>
+                                <field name="MODE">GET</field>
+                                <field name="WHERE">FROM_START</field>
                                 <value name="VALUE">
                                   <block type="variables_get">
-                                    <field name="VAR"></field>
+                                    <field name="VAR">price</field>
                                   </block>
                                 </value>
                                 <value name="AT">
                                   <block type="variables_get">
-                                    <field name="VAR"></field>
+                                    <field name="VAR">temp</field>
                                   </block>
                                 </value>
                               </block>
@@ -534,10 +534,10 @@ h1 {
                         </value>
                         <next>
                           <block type="math_change">
-                            <field name="VAR"></field>
+                            <field name="VAR">temp</field>
                             <value name="DELTA">
                               <shadow type="math_number">
-                                <field name="NUM"></field>
+                                <field name="NUM">1</field>
                               </shadow>
                             </value>
                           </block>
@@ -554,46 +554,46 @@ h1 {
           <block type="set_catalog_rule">
             <statement name="c_discount">
               <block type="variables_set">
-                <field name="VAR"></field>
+                <field name="VAR">catalog_d</field>
                 <value name="VALUE">
                   <block type="lists_create_with">
                     <mutation items="2"></mutation>
                     <value name="ADD0">
                       <block type="p_off">
-                        <field name="NAME"></field>
+                        <field name="NAME">10</field>
                       </block>
                     </value>
                     <value name="ADD1">
                       <block type="p_off">
-                        <field name="NAME"></field>
+                        <field name="NAME">15</field>
                       </block>
                     </value>
                   </block>
                 </value>
                 <next>
                   <block type="variables_set">
-                    <field name="VAR"></field>
+                    <field name="VAR">catalog_c</field>
                     <value name="VALUE">
                       <block type="lists_create_with">
                         <mutation items="2"></mutation>
                         <value name="ADD0">
                           <block type="product_category">
-                            <field name="NAME"></field>
+                            <field name="NAME">1</field>
                           </block>
                         </value>
                         <value name="ADD1">
                           <block type="product_category">
-                            <field name="NAME"></field>
+                            <field name="NAME">2</field>
                           </block>
                         </value>
                       </block>
                     </value>
                     <next>
                       <block type="variables_set">
-                        <field name="VAR"></field>
+                        <field name="VAR">temp</field>
                         <value name="VALUE">
                           <block type="math_number">
-                            <field name="NUM"></field>
+                            <field name="NUM">1</field>
                           </block>
                         </value>
                         <next>
@@ -602,36 +602,35 @@ h1 {
                               <block type="lists_length">
                                 <value name="VALUE">
                                   <block type="variables_get">
-                                    <field name="VAR"></field>
+                                    <field name="VAR">price</field>
                                   </block>
                                 </value>
                               </block>
                             </value>
                             <statement name="DO">
                               <block type="variables_set">
-                                <field name="VAR">
-                                </field>
+                                <field name="VAR">temp1</field>
                                 <value name="VALUE">
                                   <block type="math_number">
-                                    <field name="NUM"></field>
+                                    <field name="NUM">1</field>
                                   </block>
                                 </value>
                                 <next>
                                   <block type="variables_set">
-                                    <field name="VAR"></field>
+                                    <field name="VAR">a1</field>
                                     <value name="VALUE">
                                       <block type="lists_getIndex">
                                         <mutation statement="false" at="true"></mutation>
-                                        <field name="MODE"></field>
-                                        <field name="WHERE"></field>
+                                        <field name="MODE">GET</field>
+                                        <field name="WHERE">FROM_START</field>
                                         <value name="VALUE">
                                           <block type="variables_get">
-                                            <field name="VAR"></field>
+                                            <field name="VAR">category</field>
                                           </block>
                                         </value>
                                         <value name="AT">
                                           <block type="variables_get">
-                                            <field name="VAR"></field>
+                                            <field name="VAR">temp</field>
                                           </block>
                                         </value>
                                       </block>
@@ -642,27 +641,27 @@ h1 {
                                           <block type="lists_length">
                                             <value name="VALUE">
                                               <block type="variables_get">
-                                                <field name="VAR"></field>
+                                                <field name="VAR">catalog_c</field>
                                               </block>
                                             </value>
                                           </block>
                                         </value>
                                         <statement name="DO">
                                           <block type="variables_set">
-                                            <field name="VAR"></field>
+                                            <field name="VAR">a2</field>
                                             <value name="VALUE">
                                               <block type="lists_getIndex">
                                                 <mutation statement="false" at="true"></mutation>
-                                                <field name="MODE"></field>
-                                                <field name="WHERE"></field>
+                                                <field name="MODE">GET</field>
+                                                <field name="WHERE">FROM_START</field>
                                                 <value name="VALUE">
                                                   <block type="variables_get">
-                                                    <field name="VAR"></field>
+                                                    <field name="VAR">catalog_c</field>
                                                   </block>
                                                 </value>
                                                 <value name="AT">
                                                   <block type="variables_get">
-                                                    <field name="VAR"></field>
+                                                    <field name="VAR">temp1</field>
                                                   </block>
                                                 </value>
                                               </block>
@@ -671,55 +670,55 @@ h1 {
                                               <block type="controls_if">
                                                 <value name="IF0">
                                                   <block type="logic_compare">
-                                                    <field name="OP"></field>
+                                                    <field name="OP">EQ</field>
                                                     <value name="A">
                                                       <block type="variables_get">
-                                                        <field name="VAR"></field>
+                                                        <field name="VAR">a1</field>
                                                       </block>
                                                     </value>
                                                     <value name="B">
                                                       <block type="variables_get">
-                                                        <field name="VAR"></field>
+                                                        <field name="VAR">a2</field>
                                                       </block>
                                                     </value>
                                                   </block>
                                                 </value>
                                                 <statement name="DO0">
                                                   <block type="variables_set">
-                                                    <field name="VAR"></field>
+                                                    <field name="VAR">p1</field>
                                                     <value name="VALUE">
                                                       <block type="lists_getIndex">
                                                         <mutation statement="false" at="true"></mutation>
-                                                        <field name="MODE"></field>
-                                                        <field name="WHERE"></field>
+                                                        <field name="MODE">GET</field>
+                                                        <field name="WHERE">FROM_START</field>
                                                         <value name="VALUE">
                                                           <block type="variables_get">
-                                                            <field name="VAR"></field>
+                                                            <field name="VAR">price</field>
                                                           </block>
                                                         </value>
                                                         <value name="AT">
                                                           <block type="variables_get">
-                                                            <field name="VAR"></field>
+                                                            <field name="VAR">temp</field>
                                                           </block>
                                                         </value>
                                                       </block>
                                                     </value>
                                                     <next>
                                                       <block type="variables_set">
-                                                        <field name="VAR"></field>
+                                                        <field name="VAR">d1</field>
                                                         <value name="VALUE">
                                                           <block type="lists_getIndex">
                                                             <mutation statement="false" at="true"></mutation>
-                                                            <field name="MODE"></field>
-                                                            <field name="WHERE"></field>
+                                                            <field name="MODE">GET</field>
+                                                            <field name="WHERE">FROM_START</field>
                                                             <value name="VALUE">
                                                               <block type="variables_get">
-                                                                <field name="VAR"></field>
+                                                                <field name="VAR">catalog_d</field>
                                                               </block>
                                                             </value>
                                                             <value name="AT">
                                                               <block type="variables_get">
-                                                                <field name="VAR"></field>
+                                                                <field name="VAR">temp1</field>
                                                               </block>
                                                             </value>
                                                           </block>
@@ -727,45 +726,45 @@ h1 {
                                                         <next>
                                                           <block type="lists_setIndex">
                                                             <mutation at="true"></mutation>
-                                                            <field name="MODE"></field>
-                                                            <field name="WHERE"></field>
+                                                            <field name="MODE">SET</field>
+                                                            <field name="WHERE">FROM_START</field>
                                                             <value name="LIST">
                                                               <block type="variables_get">
-                                                                <field name="VAR"></field>
+                                                                <field name="VAR">price</field>
                                                               </block>
                                                             </value>
                                                             <value name="AT">
                                                               <block type="variables_get">
-                                                                <field name="VAR"></field>
+                                                                <field name="VAR">temp</field>
                                                               </block>
                                                             </value>
                                                             <value name="TO">
                                                               <block type="math_arithmetic">
-                                                                <field name="OP"></field>
+                                                                <field name="OP">MULTIPLY</field>
                                                                 <value name="A">
                                                                   <block type="variables_get">
-                                                                    <field name="VAR"></field>
+                                                                    <field name="VAR">p1</field>
                                                                   </block>
                                                                 </value>
                                                                 <value name="B">
                                                                   <block type="math_arithmetic">
-                                                                    <field name="OP"></field>
+                                                                    <field name="OP">MINUS</field>
                                                                     <value name="A">
                                                                       <block type="math_number">
-                                                                        <field name="NUM"></field>
+                                                                        <field name="NUM">1</field>
                                                                       </block>
                                                                     </value>
                                                                     <value name="B">
                                                                       <block type="math_arithmetic">
-                                                                        <field name="OP"></field>
+                                                                        <field name="OP">DIVIDE</field>
                                                                         <value name="A">
                                                                           <block type="variables_get">
-                                                                            <field name="VAR"></field>
+                                                                            <field name="VAR">d1</field>
                                                                           </block>
                                                                         </value>
                                                                         <value name="B">
                                                                           <block type="math_number">
-                                                                            <field name="NUM"></field>
+                                                                            <field name="NUM">100</field>
                                                                           </block>
                                                                         </value>
                                                                       </block>
@@ -782,7 +781,7 @@ h1 {
                                                 </statement>
                                                 <next>
                                                   <block type="math_change">
-                                                    <field name="VAR"></field>
+                                                    <field name="VAR">temp1</field>
                                                     <value name="DELTA">
                                                       <shadow type="math_number">
                                                         <field name="NUM">1</field>
@@ -796,10 +795,10 @@ h1 {
                                         </statement>
                                         <next>
                                           <block type="math_change">
-                                            <field name="VAR"></field>
+                                            <field name="VAR">temp</field>
                                             <value name="DELTA">
                                               <shadow type="math_number">
-                                                <field name="NUM"></field>
+                                                <field name="NUM">1</field>
                                               </shadow>
                                             </value>
                                           </block>
@@ -826,33 +825,33 @@ h1 {
                       <block type="controls_if">
                         <value name="IF0">
                           <block type="logic_operation">
-                            <field name="OP"></field>
+                            <field name="OP">AND</field>
                             <value name="A">
                               <block type="logic_compare">
-                                <field name="OP"></field>
+                                <field name="OP">EQ</field>
                                 <value name="A">
                                   <block type="payment">
-                                    <field name="option"></field>
+                                    <field name="option">2</field>
                                   </block>
                                 </value>
                                 <value name="B">
                                   <block type="math_number">
-                                    <field name="NUM"></field>
+                                    <field name="NUM">2</field>
                                   </block>
                                 </value>
                               </block>
                             </value>
                             <value name="B">
                               <block type="logic_compare">
-                                <field name="OP"></field>
+                                <field name="OP">GTE</field>
                                 <value name="A">
                                   <block type="variables_get">
-                                    <field name="VAR"></field>
+                                    <field name="VAR">sum</field>
                                   </block>
                                 </value>
                                 <value name="B">
                                   <block type="math_number">
-                                    <field name="NUM"></field>
+                                    <field name="NUM">1000</field>
                                   </block>
                                 </value>
                               </block>
@@ -861,42 +860,42 @@ h1 {
                         </value>
                         <statement name="DO0">
                           <block type="variables_set">
-                            <field name="VAR"></field>
+                            <field name="VAR">% off</field>
                             <value name="VALUE">
                               <block type="math_number">
-                                <field name="NUM"></field>
+                                <field name="NUM">10</field>
                               </block>
                             </value>
                             <next>
                               <block type="variables_set">
-                                <field name="VAR"></field>
+                                <field name="VAR">new_sum</field>
                                 <value name="VALUE">
                                   <block type="math_arithmetic">
-                                    <field name="OP"></field>
+                                    <field name="OP">MULTIPLY</field>
                                     <value name="A">
                                       <block type="variables_get">
-                                        <field name="VAR"></field>
+                                        <field name="VAR">sum</field>
                                       </block>
                                     </value>
                                     <value name="B">
                                       <block type="math_arithmetic">
-                                        <field name="OP"></field>
+                                        <field name="OP">MINUS</field>
                                         <value name="A">
                                           <block type="math_number">
-                                            <field name="NUM"></field>
+                                            <field name="NUM">1</field>
                                           </block>
                                         </value>
                                         <value name="B">
                                           <block type="math_arithmetic">
-                                            <field name="OP"></field>
+                                            <field name="OP">DIVIDE</field>
                                             <value name="A">
                                               <block type="variables_get">
-                                                <field name="VAR"></field>
+                                                <field name="VAR">% off</field>
                                               </block>
                                             </value>
                                             <value name="B">
                                               <block type="math_number">
-                                                <field name="NUM"></field>
+                                                <field name="NUM">100</field>
                                               </block>
                                             </value>
                                           </block>
@@ -919,41 +918,41 @@ h1 {
                       <block type="controls_if">
                         <value name="IF0">
                           <block type="logic_compare">
-                            <field name="OP"></field>
+                            <field name="OP">LT</field>
                             <value name="A">
                               <block type="variables_get">
-                                <field name="VAR"></field>
+                                <field name="VAR">new_sum</field>
                               </block>
                             </value>
                             <value name="B">
                               <block type="math_number">
-                                <field name="NUM"></field>
+                                <field name="NUM">2000</field>
                               </block>
                             </value>
                           </block>
                         </value>
                         <statement name="DO0">
                           <block type="variables_set">
-                            <field name="VAR"></field>
+                            <field name="VAR">shipping charges</field>
                             <value name="VALUE">
                               <block type="math_number">
-                                <field name="NUM"></field>
+                                <field name="NUM">100</field>
                               </block>
                             </value>
                             <next>
                               <block type="variables_set">
-                                <field name="VAR"></field>
+                                <field name="VAR">new_sum</field>
                                 <value name="VALUE">
                                   <block type="math_arithmetic">
-                                    <field name="OP"></field>
+                                    <field name="OP">ADD</field>
                                     <value name="A">
                                       <block type="variables_get">
-                                        <field name="VAR"></field>
+                                        <field name="VAR">new_sum</field>
                                       </block>
                                     </value>
                                     <value name="B">
                                       <block type="variables_get">
-                                        <field name="VAR"></field>
+                                        <field name="VAR">shipping charges</field>
                                       </block>
                                     </value>
                                   </block>
@@ -968,7 +967,7 @@ h1 {
                       <block type="text_print">
                         <value name="TEXT">
                           <block type="variables_get">
-                            <field name="VAR"></field>
+                            <field name="VAR">new_sum</field>
                           </block>
                         </value>
                       </block>
@@ -983,7 +982,6 @@ h1 {
     </next>
   </block>
 </xml>
-
 
 
 
