@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Blockly Generator Tests</title>
+
+  <script src="../../blockly_compressed.js"></script>
+  <script src="../../blocks_compressed.js"></script>
+  <script src="../../javascript_compressed.js"></script>
+  <script src="../../msg/js/en.js"></script>
+  <script src="../../blocks/rule.js"></script>
+  <script src="../../generators/javascript/rule.js"></script>
+
+<script>
+'use strict';
+
+var workspace = null;
+
+function start() {
+  workspace = Blockly.inject('blocklyDiv',
+      {grid:
+         {spacing: 25,
+          length: 3,
+          colour: '#ccc',
+          snap: true},
+       media: '../../media/',
+       toolbox: document.getElementById('toolbox'),
+       zoom: {controls: true, wheel: true}
+       });
+     Blockly.Xml.domToWorkspace(document.getElementById('startBlocks'),
+                               workspace);
+  changeIndex();
+
+}
+
+function loadXml() {
+  var dropdown = document.getElementById('testUrl');
+  var url = dropdown.options[dropdown.selectedIndex].value;
+  if (!url) {
+    url = window.prompt('Enter URL of test file.');
+    if (!url) {
+      return;
+    }
+  }
+  var xmlText = fetchFile(url);
+  if (xmlText !== null) {
+    fromXml(xmlText);
+  }
+}
+
+function fetchFile(xmlUrl) {
+  try {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open('GET', xmlUrl, false);
+    xmlHttp.setRequestHeader('Content-Type', 'text/xml');
+    xmlHttp.send('');
+  } catch (e) {
+    // Attempt to diagnose the problem.
+    var msg = 'Error: Unable to load XML data.\n';
+    if (window.location.protocol == 'file:') {
+      msg += 'This may be due to a security restriction preventing\n' +
+          'access when using the file:// protocol.\n' +
+          'Use an http webserver, or a less paranoid browser.\n';
+    }
+    alert(msg + '\n' + e);
+    return null;
+  }
+  return xmlHttp.responseText;
+}
+
+function fromXml(xmlText) {
+  var output = document.getElementById('importExport');
+  output.value = xmlText;
+  output.scrollTop = 0;
+  output.scrollLeft = 0;
+  workspace.clear();
+  try {
+    var xmlDoc = Blockly.Xml.textToDom(xmlText);
+  } catch (e) {
+    alert('Error parsing XML:\n' + e);
+    return;
+  }
+  Blockly.Xml.domToWorkspace(xmlDoc, workspace);
+}
+
+function setOutput(text) {
+  var output = document.getElementById('importExport');
+  output.value = text;
+  output.focus();
+  output.select();
+}
+
+function toXml() {
+  var xmlDom = Blockly.Xml.workspaceToDom(workspace, /* opt_noId */ true);
+  var xmlText = Blockly.Xml.domToPrettyText(xmlDom);
+  xmlText = xmlText.replace(/ id="\d+"/g, '');
+  setOutput(xmlText);
+}
+
+function toJavaScript() {
+  var code = '\'use strict\';\n\n'
+  code += Blockly.JavaScript.workspaceToCode(workspace);
+  setOutput(code);
+}
+
+function toPython() {
+  var code = Blockly.Python.workspaceToCode(workspace);
+  setOutput(code);
+}
+
+function toPhp() {
+  var code = Blockly.PHP.workspaceToCode(workspace);
+  setOutput(code);
+}
+
+function changeIndex() {
+  var oneBasedIndex = document.getElementById('indexing').checked;
+  workspace.options.oneBasedIndex = oneBasedIndex;
+  workspace.toolbox_.flyout_.workspace_.options.oneBasedIndex = oneBasedIndex;
+}
+</script>
+
+
+ <script>
+
+
+    function showCode() {
+      // Generate JavaScript code and display it.
+      Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+      var code = Blockly.JavaScript.workspaceToCode(workspace);
+      alert(code);
+    }
+
+    function runCode() {
+      // Generate JavaScript code and run it.
+      window.LoopTrap = 1000;
+      Blockly.JavaScript.INFINITE_LOOP_TRAP =
+          'if (--window.LoopTrap == 0) throw "Infinite loop.";\n';
+      var code = Blockly.JavaScript.workspaceToCode(workspace);
+      Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+      try {
+        eval(code);
+      } catch (e) {
+        alert(e);
+      }
+    }
+  </script>
+
+<style>
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+body {
+  background-color: #fff;
+  font-family: sans-serif;
+  margin: 0 5px;
+}
+h1 {
+  font-weight: normal;
+  font-size: 140%;
+}
+#blocklyDiv {
+  float: right;
+  height: 95%;
+  width: 69%;
+  margin-top: 5px;
+}
+#importExport {
+  height: 100%;
+  width: 100%;
+}
+</style>
+</head>
+<body onload="start()">
+
+  <div id="blocklyDiv"></div>
+
+  <xml id="toolbox" style="display: none">
+    <category name="Logic">
+      <block type="controls_if"></block>
+      <block type="logic_compare"></block>
+      <block type="logic_operation"></block>
+      <block type="logic_negate"></block>
+      <block type="logic_boolean"></block>
+    </category>
+    <category name="Loops">
+      <block type="controls_repeat_ext">
+        <value name="TIMES">
+          <block type="math_number">
+            <field name="NUM">10</field>
+          </block>
+        </value>
+      </block>
+      <block type="controls_whileUntil"></block>
+    </category>
+    <category name="Math">
+      <block type="math_number"></block>
+      <block type="math_arithmetic"></block>
+      <block type="math_single"></block>
+    </category>
+    <category name="Text">
+      <block type="text"></block>
+      <block type="text_length"></block>
+      <block type="text_print"></block>
+    </category>
+
+    <category name="list" colour="%{BKY_LISTS_HUE}">
+      <block type="lists_create_with">
+        <mutation items="0"></mutation>
+      </block>
+      <block type="lists_create_with"></block>
+      <block type="lists_repeat">
+        <value name="NUM">
+          <shadow type="math_number">
+            <field name="NUM">5</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="lists_length"></block>
+      <block type="lists_isEmpty"></block>
+      <block type="lists_indexOf">
+        <value name="VALUE">
+          <block type="variables_get">
+            <field name="VAR">{listVariable}</field>
+          </block>
+        </value>
+      </block>
+      <block type="lists_getIndex">
+        <value name="VALUE">
+          <block type="variables_get">
+            <field name="VAR">{listVariable}</field>
+          </block>
+        </value>
+      </block>
+      <block type="lists_setIndex">
+        <value name="LIST">
+          <block type="variables_get">
+            <field name="VAR">{listVariable}</field>
+          </block>
+        </value>
+      </block>
+      <block type="lists_getSublist">
+        <value name="LIST">
+          <block type="variables_get">
+            <field name="VAR">{listVariable}</field>
+          </block>
+        </value>
+      </block>
+      <block type="lists_split">
+        <value name="DELIM">
+          <shadow type="text">
+            <field name="TEXT">,</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="lists_sort"></block>
+    </category>
+
+   <category name="Rule">
+    <block type="variables_set">
+      <field name="VAR">i</field>
+      <value name="VALUE">
+        <block type="lists_create_with">
+          <mutation items="1"></mutation>
+          <value name="ADD0">
+            <block type="product_name">
+              <field name="p_name"> name</field>
+            </block>
+          </value>
+        </block>
+      </value>
+      <next>
+        <block type="variables_set">
+          <field name="VAR">i</field>
+          <value name="VALUE">
+            <block type="lists_create_with">
+              <mutation items="1"></mutation>
+              <value name="ADD0">
+                <block type="product_price">
+                  <field name="p_price">100</field>
+                </block>
+              </value>
+            </block>
+          </value>
+          <next>
+            <block type="variables_set">
+              <field name="VAR">i</field>
+              <value name="VALUE">
+                <block type="lists_create_with">
+                  <mutation items="1"></mutation>
+                  <value name="ADD0">
+                    <block type="product_category">
+                      <field name="NAME">1</field>
+                    </block>
+                  </value>
+                </block>
+              </value>
+            </block>
+          </next>
+        </block>
+      </next>
+    </block>
+    <block type="variables_set">
+      <field name="VAR">sum</field>
+      <value name="VALUE">
+        <block type="math_number">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+      <next>
+        <block type="controls_repeat_ext">
+          <value name="TIMES">
+            <block type="lists_length">
+              <value name="VALUE">
+                <block type="variables_get">
+                  <field name="VAR">list</field>
+                </block>
+              </value>
+            </block>
+          </value>
+          <statement name="DO">
+            <block type="variables_set">
+              <field name="VAR">sum</field>
+              <value name="VALUE">
+                <block type="math_arithmetic">
+                  <field name="OP">ADD</field>
+                  <value name="A">
+                    <block type="variables_get">
+                      <field name="VAR">sum</field>
+                    </block>
+                  </value>
+                  <value name="B">
+                    <block type="lists_getIndex">
+                      <mutation statement="false" at="true"></mutation>
+                      <field name="MODE">GET</field>
+                      <field name="WHERE">FROM_START</field>
+                      <value name="VALUE">
+                        <block type="variables_get">
+                          <field name="VAR">list</field>
+                        </block>
+                      </value>
+                    </block>
+                  </value>
+                </block>
+              </value>
+              <next>
+                <block type="math_change">
+                  <field name="VAR">i</field>
+                  <value name="DELTA">
+                    <shadow type="math_number">
+                      <field name="NUM">1</field>
+                    </shadow>
+                  </value>
+                </block>
+              </next>
+            </block>
+          </statement>
+        </block>
+      </next>
+    </block>
+    <block type="product_category">
+      <field name="NAME">1</field>
+    </block>
+    <block type="shipping_rule"></block>
+    <block type="p_off">
+      <field name="NAME">0</field>
+    </block>
+    <block type="cart_rules"></block>
+    <block type="payment">
+      <field name="option">1</field>
+    </block>
+    <block type="sum_block"></block>
+    <block type="set_catalog_rule"></block>
+    <block type="multi_cond"></block>
+  </category>
+  <category name="Add Product">
+    <block type="product_name">
+      <field name="p_name"> name</field>
+    </block>
+    <block type="product_price">
+      <field name="p_price">100</field>
+    </block>
+    <block type="product_category">
+      <field name="NAME">1</field>
+    </block>
+    <block type="cart_item"></block>
+  </category>
+  <category name="Variables" colour="#A65C81" custom="VARIABLE"></category>
+ 
+  </xml>
+
+
+
+
+
+
+
+<xml id="startBlocks">
+  <block type="cart_item" x="20" y="-382">
+    <statement name="cart">
+      <block type="variables_set">
+        <field name="VAR"></field>
+        <value name="VALUE">
+          <block type="lists_create_with">
+            <mutation items="3"></mutation>
+            <value name="ADD0">
+              <block type="product_name">
+                <field name="p_name"> </field>
+              </block>
+            </value>
+            <value name="ADD1">
+              <block type="product_name">
+                <field name="p_name"> </field>
+              </block>
+            </value>
+            <value name="ADD2">
+              <block type="product_name">
+                <field name="p_name"> </field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <next>
+          <block type="variables_set">
+            <field name="VAR"></field>
+            <value name="VALUE">
+              <block type="lists_create_with">
+                <mutation items="3"></mutation>
+                <value name="ADD0">
+                  <block type="product_price">
+                    <field name="p_price"></field>
+                  </block>
+                </value>
+                <value name="ADD1">
+                  <block type="product_price">
+                    <field name="p_price"></field>
+                  </block>
+                </value>
+                <value name="ADD2">
+                  <block type="product_price">
+                    <field name="p_price"></field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <next>
+              <block type="variables_set">
+                <field name="VAR"></field>
+                <value name="VALUE">
+                  <block type="lists_create_with">
+                    <mutation items="3"></mutation>
+                    <value name="ADD0">
+                      <block type="product_category">
+                        <field name="NAME"></field>
+                      </block>
+                    </value>
+                    <value name="ADD1">
+                      <block type="product_category">
+                        <field name="NAME"></field>
+                      </block>
+                    </value>
+                    <value name="ADD2">
+                      <block type="product_category">
+                        <field name="NAME"></field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <next>
+      <block type="sum_block">
+        <statement name="sum">
+          <block type="variables_set">
+            <field name="VAR"></field>
+            <value name="VALUE">
+              <block type="math_number">
+                <field name="NUM"></field>
+              </block>
+            </value>
+            <next>
+              <block type="variables_set">
+                <field name="VAR"></field>
+                <value name="VALUE">
+                  <block type="math_number">
+                    <field name="NUM"></field>
+                  </block>
+                </value>
+                <next>
+                  <block type="controls_repeat_ext">
+                    <value name="TIMES">
+                      <block type="lists_length">
+                        <value name="VALUE">
+                          <block type="variables_get">
+                            <field name="VAR"></field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <statement name="DO">
+                      <block type="variables_set">
+                        <field name="VAR"></field>
+                        <value name="VALUE">
+                          <block type="math_arithmetic">
+                            <field name="OP"></field>
+                            <value name="A">
+                              <block type="variables_get">
+                                <field name="VAR"></field>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <block type="lists_getIndex">
+                                <mutation statement="false" at="true"></mutation>
+                                <field name="MODE"></field>
+                                <field name="WHERE"></field>
+                                <value name="VALUE">
+                                  <block type="variables_get">
+                                    <field name="VAR"></field>
+                                  </block>
+                                </value>
+                                <value name="AT">
+                                  <block type="variables_get">
+                                    <field name="VAR"></field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="math_change">
+                            <field name="VAR"></field>
+                            <value name="DELTA">
+                              <shadow type="math_number">
+                                <field name="NUM"></field>
+                              </shadow>
+                            </value>
+                          </block>
+                        </next>
+                      </block>
+                    </statement>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+        <next>
+          <block type="set_catalog_rule">
+            <statement name="c_discount">
+              <block type="variables_set">
+                <field name="VAR"></field>
+                <value name="VALUE">
+                  <block type="lists_create_with">
+                    <mutation items="2"></mutation>
+                    <value name="ADD0">
+                      <block type="p_off">
+                        <field name="NAME"></field>
+                      </block>
+                    </value>
+                    <value name="ADD1">
+                      <block type="p_off">
+                        <field name="NAME"></field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <next>
+                  <block type="variables_set">
+                    <field name="VAR"></field>
+                    <value name="VALUE">
+                      <block type="lists_create_with">
+                        <mutation items="2"></mutation>
+                        <value name="ADD0">
+                          <block type="product_category">
+                            <field name="NAME"></field>
+                          </block>
+                        </value>
+                        <value name="ADD1">
+                          <block type="product_category">
+                            <field name="NAME"></field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="variables_set">
+                        <field name="VAR"></field>
+                        <value name="VALUE">
+                          <block type="math_number">
+                            <field name="NUM"></field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="controls_repeat_ext">
+                            <value name="TIMES">
+                              <block type="lists_length">
+                                <value name="VALUE">
+                                  <block type="variables_get">
+                                    <field name="VAR"></field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <statement name="DO">
+                              <block type="variables_set">
+                                <field name="VAR">
+                                </field>
+                                <value name="VALUE">
+                                  <block type="math_number">
+                                    <field name="NUM"></field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="variables_set">
+                                    <field name="VAR"></field>
+                                    <value name="VALUE">
+                                      <block type="lists_getIndex">
+                                        <mutation statement="false" at="true"></mutation>
+                                        <field name="MODE"></field>
+                                        <field name="WHERE"></field>
+                                        <value name="VALUE">
+                                          <block type="variables_get">
+                                            <field name="VAR"></field>
+                                          </block>
+                                        </value>
+                                        <value name="AT">
+                                          <block type="variables_get">
+                                            <field name="VAR"></field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <next>
+                                      <block type="controls_repeat_ext">
+                                        <value name="TIMES">
+                                          <block type="lists_length">
+                                            <value name="VALUE">
+                                              <block type="variables_get">
+                                                <field name="VAR"></field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <statement name="DO">
+                                          <block type="variables_set">
+                                            <field name="VAR"></field>
+                                            <value name="VALUE">
+                                              <block type="lists_getIndex">
+                                                <mutation statement="false" at="true"></mutation>
+                                                <field name="MODE"></field>
+                                                <field name="WHERE"></field>
+                                                <value name="VALUE">
+                                                  <block type="variables_get">
+                                                    <field name="VAR"></field>
+                                                  </block>
+                                                </value>
+                                                <value name="AT">
+                                                  <block type="variables_get">
+                                                    <field name="VAR"></field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </value>
+                                            <next>
+                                              <block type="controls_if">
+                                                <value name="IF0">
+                                                  <block type="logic_compare">
+                                                    <field name="OP"></field>
+                                                    <value name="A">
+                                                      <block type="variables_get">
+                                                        <field name="VAR"></field>
+                                                      </block>
+                                                    </value>
+                                                    <value name="B">
+                                                      <block type="variables_get">
+                                                        <field name="VAR"></field>
+                                                      </block>
+                                                    </value>
+                                                  </block>
+                                                </value>
+                                                <statement name="DO0">
+                                                  <block type="variables_set">
+                                                    <field name="VAR"></field>
+                                                    <value name="VALUE">
+                                                      <block type="lists_getIndex">
+                                                        <mutation statement="false" at="true"></mutation>
+                                                        <field name="MODE"></field>
+                                                        <field name="WHERE"></field>
+                                                        <value name="VALUE">
+                                                          <block type="variables_get">
+                                                            <field name="VAR"></field>
+                                                          </block>
+                                                        </value>
+                                                        <value name="AT">
+                                                          <block type="variables_get">
+                                                            <field name="VAR"></field>
+                                                          </block>
+                                                        </value>
+                                                      </block>
+                                                    </value>
+                                                    <next>
+                                                      <block type="variables_set">
+                                                        <field name="VAR"></field>
+                                                        <value name="VALUE">
+                                                          <block type="lists_getIndex">
+                                                            <mutation statement="false" at="true"></mutation>
+                                                            <field name="MODE"></field>
+                                                            <field name="WHERE"></field>
+                                                            <value name="VALUE">
+                                                              <block type="variables_get">
+                                                                <field name="VAR"></field>
+                                                              </block>
+                                                            </value>
+                                                            <value name="AT">
+                                                              <block type="variables_get">
+                                                                <field name="VAR"></field>
+                                                              </block>
+                                                            </value>
+                                                          </block>
+                                                        </value>
+                                                        <next>
+                                                          <block type="lists_setIndex">
+                                                            <mutation at="true"></mutation>
+                                                            <field name="MODE"></field>
+                                                            <field name="WHERE"></field>
+                                                            <value name="LIST">
+                                                              <block type="variables_get">
+                                                                <field name="VAR"></field>
+                                                              </block>
+                                                            </value>
+                                                            <value name="AT">
+                                                              <block type="variables_get">
+                                                                <field name="VAR"></field>
+                                                              </block>
+                                                            </value>
+                                                            <value name="TO">
+                                                              <block type="math_arithmetic">
+                                                                <field name="OP"></field>
+                                                                <value name="A">
+                                                                  <block type="variables_get">
+                                                                    <field name="VAR"></field>
+                                                                  </block>
+                                                                </value>
+                                                                <value name="B">
+                                                                  <block type="math_arithmetic">
+                                                                    <field name="OP"></field>
+                                                                    <value name="A">
+                                                                      <block type="math_number">
+                                                                        <field name="NUM"></field>
+                                                                      </block>
+                                                                    </value>
+                                                                    <value name="B">
+                                                                      <block type="math_arithmetic">
+                                                                        <field name="OP"></field>
+                                                                        <value name="A">
+                                                                          <block type="variables_get">
+                                                                            <field name="VAR"></field>
+                                                                          </block>
+                                                                        </value>
+                                                                        <value name="B">
+                                                                          <block type="math_number">
+                                                                            <field name="NUM"></field>
+                                                                          </block>
+                                                                        </value>
+                                                                      </block>
+                                                                    </value>
+                                                                  </block>
+                                                                </value>
+                                                              </block>
+                                                            </value>
+                                                          </block>
+                                                        </next>
+                                                      </block>
+                                                    </next>
+                                                  </block>
+                                                </statement>
+                                                <next>
+                                                  <block type="math_change">
+                                                    <field name="VAR"></field>
+                                                    <value name="DELTA">
+                                                      <shadow type="math_number">
+                                                        <field name="NUM">1</field>
+                                                      </shadow>
+                                                    </value>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </statement>
+                                        <next>
+                                          <block type="math_change">
+                                            <field name="VAR"></field>
+                                            <value name="DELTA">
+                                              <shadow type="math_number">
+                                                <field name="NUM"></field>
+                                              </shadow>
+                                            </value>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </statement>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <next>
+              <block type="cart_rules">
+                <statement name="cart_rule">
+                  <block type="multi_cond">
+                    <statement name="con1">
+                      <block type="controls_if">
+                        <value name="IF0">
+                          <block type="logic_operation">
+                            <field name="OP"></field>
+                            <value name="A">
+                              <block type="logic_compare">
+                                <field name="OP"></field>
+                                <value name="A">
+                                  <block type="payment">
+                                    <field name="option"></field>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <block type="math_number">
+                                    <field name="NUM"></field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <block type="logic_compare">
+                                <field name="OP"></field>
+                                <value name="A">
+                                  <block type="variables_get">
+                                    <field name="VAR"></field>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <block type="math_number">
+                                    <field name="NUM"></field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <statement name="DO0">
+                          <block type="variables_set">
+                            <field name="VAR"></field>
+                            <value name="VALUE">
+                              <block type="math_number">
+                                <field name="NUM"></field>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="variables_set">
+                                <field name="VAR"></field>
+                                <value name="VALUE">
+                                  <block type="math_arithmetic">
+                                    <field name="OP"></field>
+                                    <value name="A">
+                                      <block type="variables_get">
+                                        <field name="VAR"></field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <block type="math_arithmetic">
+                                        <field name="OP"></field>
+                                        <value name="A">
+                                          <block type="math_number">
+                                            <field name="NUM"></field>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <block type="math_arithmetic">
+                                            <field name="OP"></field>
+                                            <value name="A">
+                                              <block type="variables_get">
+                                                <field name="VAR"></field>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <block type="math_number">
+                                                <field name="NUM"></field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                              </block>
+                            </next>
+                          </block>
+                        </statement>
+                      </block>
+                    </statement>
+                  </block>
+                </statement>
+                <next>
+                  <block type="shipping_rule">
+                    <statement name="shipping">
+                      <block type="controls_if">
+                        <value name="IF0">
+                          <block type="logic_compare">
+                            <field name="OP"></field>
+                            <value name="A">
+                              <block type="variables_get">
+                                <field name="VAR"></field>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <block type="math_number">
+                                <field name="NUM"></field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <statement name="DO0">
+                          <block type="variables_set">
+                            <field name="VAR"></field>
+                            <value name="VALUE">
+                              <block type="math_number">
+                                <field name="NUM"></field>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="variables_set">
+                                <field name="VAR"></field>
+                                <value name="VALUE">
+                                  <block type="math_arithmetic">
+                                    <field name="OP"></field>
+                                    <value name="A">
+                                      <block type="variables_get">
+                                        <field name="VAR"></field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <block type="variables_get">
+                                        <field name="VAR"></field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                              </block>
+                            </next>
+                          </block>
+                        </statement>
+                      </block>
+                    </statement>
+                    <next>
+                      <block type="text_print">
+                        <value name="TEXT">
+                          <block type="variables_get">
+                            <field name="VAR"></field>
+                          </block>
+                        </value>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
+
+
+
+
+
+
+
+
+  <table height="95%" width="30%"><tr><td valign="top">
+    <h1>Blockly Rule Engine</h1>
+
+    <p>
+      Generate:
+      <input type="button" value="XML" onclick="toXml()">
+      <div style="display: inline-block;">
+        <input type="button" value="JavaScript" onclick="toJavaScript()">
+      
+      </div>
+      <div style="display: inline-block;">
+        <input type="button" value="Python" onclick="toPython()">
+       
+      </div>
+      <div style="display: inline-block;">
+        <input type="button" value="Show JavaScript" onclick="showCode()">
+  
+      </div>
+      <div style="display: inline-block;">
+        <input type="button" value="Run JavaScript" onclick="runCode()">
+      
+      </div>
+    
+    </p>
+  </td></tr><tr><td height="99%">
+    <textarea id="importExport" readonly="readonly" wrap="off"></textarea>
+  </td></tr></table>
+
+
+
+</body>
+</html>

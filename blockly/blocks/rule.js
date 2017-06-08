@@ -286,5 +286,21 @@ Blockly.defineBlocksWithJsonArray(
   "colour": 230,
   "tooltip": "",
   "helpUrl": ""
-}]
+},
+{
+  "type": "shipping_rule",
+  "message0": "Set Shipping Rule %1",
+  "args0": [
+    {
+      "type": "input_statement",
+      "name": "shipping"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+}
+]
 );

@@ -118,3 +118,10 @@ Blockly.JavaScript['sum_block'] = function(block) {
   var code = statements_sum;
   return code;
 };
+
+Blockly.JavaScript['shipping_rule'] = function(block) {
+  var statements_shipping = Blockly.JavaScript.statementToCode(block, 'shipping');
+  // TODO: Assemble JavaScript into code variable.
+  var code = statements_shipping;
+  return code;
+};
