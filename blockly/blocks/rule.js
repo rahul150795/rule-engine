@@ -47,204 +47,33 @@ Blockly.Blocks.rule.HUE = Blockly.Constants.Rule.HUE;
 Blockly.defineBlocksWithJsonArray(
 
 [{
-  "type": "set_category",
-  "message0": "Set %1 discount %2",
+  "type": "env",
+  "message0": "Live %1 Staging %2",
   "args0": [
     {
-      "type": "field_dropdown",
-      "name": "NAME",
-      "options": [
-        [
-          "Category 1",
-          "1"
-        ],
-        [
-          "Category 2",
-          "2"
-        ],
-        [
-          "Category 3",
-          "3"
-        ]
-      ]
+      "type": "field_checkbox",
+      "name": "live",
+      "checked": true
     },
     {
-      "type": "field_number",
-      "name": "discount",
-      "value": 0
+      "type": "field_checkbox",
+      "name": "staging",
+      "checked": true
     }
   ],
-  "inputsInline": false,
-  "previousStatement": null,
-  "nextStatement": null,
-  "colour": 230,
-  "tooltip": "",
-  "helpUrl": ""
-},
-{
-  "type": "set_rule",
-  "message0": "%1",
-  "args0": [
-    {
-      "type": "field_dropdown",
-      "name": "p_category",
-      "options": [
-        [
-          "category 1",
-          "1"
-        ],
-        [
-          "category 2",
-          "2"
-        ],
-        [
-          "category 3",
-          "3"
-        ]
-      ]
-    }
-  ],
-  "inputsInline": false,
+  "inputsInline": true,
   "output": null,
-  "colour": 230,
+  "colour": 180,
   "tooltip": "",
   "helpUrl": ""
 },
 {
-  "type": "product_name",
-  "message0": "Product %1",
-  "args0": [
-    {
-      "type": "field_input",
-      "name": "p_name",
-      "text": " name"
-    }
-  ],
-  "inputsInline": false,
-  "output": null,
-  "colour": 230,
-  "tooltip": "",
-  "helpUrl": ""
-},
-{
-  "type": "product_price",
-  "message0": "Product Price %1",
-  "args0": [
-    {
-      "type": "field_number",
-      "name": "p_price",
-      "value": 100
-    }
-  ],
-  "output": null,
-  "colour": 230,
-  "tooltip": "",
-  "helpUrl": ""
-},
-{
-  "type": "product_category",
-  "message0": "%1",
-  "args0": [
-    {
-      "type": "field_dropdown",
-      "name": "NAME",
-      "options": [
-        [
-          "category 1",
-          "1"
-        ],
-        [
-          "category 2",
-          "2"
-        ],
-        [
-          "category 3",
-          "3"
-        ]
-      ]
-    }
-  ],
-  "inputsInline": false,
-  "output": null,
-  "colour": 230,
-  "tooltip": "",
-  "helpUrl": ""
-},
-{
-  "type": "p_off",
-  "message0": "%1 %% off ",
-  "args0": [
-    {
-      "type": "field_number",
-      "name": "NAME",
-      "value": 0
-    }
-  ],
-  "output": null,
-  "colour": 230,
-  "tooltip": "",
-  "helpUrl": ""
-},
-{
-  "type": "payment",
-  "message0": "Payment %1",
-  "args0": [
-    {
-      "type": "field_dropdown",
-      "name": "option",
-      "options": [
-        [
-          "COD",
-          "1"
-        ],
-        [
-          "Online",
-          "2"
-        ]
-      ]
-    }
-  ],
-  "output": null,
-  "colour": 230,
-  "tooltip": "",
-  "helpUrl": ""
-},
-{
-  "type": "cart_item",
-  "message0": "Add Item in cart %1",
+  "type": "itemcondition",
+  "message0": "Item Condition %1",
   "args0": [
     {
       "type": "input_statement",
-      "name": "cart"
-    }
-  ],
-  "nextStatement": null,
-  "colour": 230,
-  "tooltip": "",
-  "helpUrl": ""
-},
-{
-  "type": "set_catalog_rule",
-  "message0": "set Catalog Rule %1",
-  "args0": [
-    {
-      "type": "input_statement",
-      "name": "c_discount"
-    }
-  ],
-  "previousStatement": null,
-  "nextStatement": null,
-  "colour": 230,
-  "tooltip": "",
-  "helpUrl": ""
-},
-{
-  "type": "cart_rules",
-  "message0": "Set Cart Rule %1",
-  "args0": [
-    {
-      "type": "input_statement",
-      "name": "cart_rule"
+      "name": "NAME"
     }
   ],
   "previousStatement": null,
@@ -254,31 +83,219 @@ Blockly.defineBlocksWithJsonArray(
   "helpUrl": ""
 },
 {
-  "type": "multi_cond",
-  "message0": "Rule 1 %1 Rule 2 %2",
+  "type": "ordercondition",
+  "message0": "Order Condition %1",
   "args0": [
     {
       "type": "input_statement",
-      "name": "con1"
+      "name": "NAME"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 315,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "discounttype",
+  "message0": "Discount type %1",
+  "args0": [
+    {
+      "type": "input_statement",
+      "name": "NAME"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 315,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "discountvalue",
+  "message0": "Discount Value %1",
+  "args0": [
+    {
+      "type": "input_statement",
+      "name": "NAME"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 315,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "maximumoff",
+  "message0": "Maximum Off %1",
+  "args0": [
+    {
+      "type": "input_statement",
+      "name": "NAME"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 315,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "addcartitem",
+  "message0": "Add item in cart %1",
+  "args0": [
+    {
+      "type": "input_statement",
+      "name": "NAME"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 315,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "catalogrule",
+  "message0": "Set catalog Rule %1",
+  "args0": [
+    {
+      "type": "input_statement",
+      "name": "NAME"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "cartrule",
+  "message0": "Set Cart Rule %1",
+  "args0": [
+    {
+      "type": "input_statement",
+      "name": "NAME"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+},
+
+{
+  "type": "price",
+  "message0": "Price %1",
+  "args0": [
+    {
+      "type": "field_number",
+      "name": "NAME",
+      "value": 0
+    }
+  ],
+  "output": null,
+  "colour": 0,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "brand",
+  "message0": "Brand %1",
+  "args0": [
+    {
+      "type": "field_input",
+      "name": "NAME",
+      "text": "--------"
+    }
+  ],
+  "output": null,
+  "colour": 0,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "rulename",
+  "message0": "Rule Name %1 %2",
+  "args0": [
+    {
+      "type": "field_input",
+      "name": "NAME",
+      "text": "rule1"
     },
     {
       "type": "input_statement",
-      "name": "con2"
+      "name": "NAME"
     }
   ],
   "previousStatement": null,
   "nextStatement": null,
-  "colour": 180,
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+},
+
+{
+  "type": "discount_type",
+  "message0": "Fixed %1 Percent %2",
+  "args0": [
+    {
+      "type": "field_checkbox",
+      "name": "fixed",
+      "checked": true
+    },
+    {
+      "type": "field_checkbox",
+      "name": "NAME",
+      "checked": true
+    }
+  ],
+  "output": null,
+  "colour": 195,
   "tooltip": "",
   "helpUrl": ""
 },
 {
-  "type": "sum_block",
-  "message0": "sum %1",
+  "type": "category",
+  "message0": "Category %1",
+  "args0": [
+    {
+      "type": "field_input",
+      "name": "NAME",
+      "text": "--------"
+    }
+  ],
+  "output": null,
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "category",
+  "message0": "Category %1",
+  "args0": [
+    {
+      "type": "field_input",
+      "name": "NAME",
+      "text": "--------"
+    }
+  ],
+  "output": null,
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "definition",
+  "message0": "Rule Definition %1",
   "args0": [
     {
       "type": "input_statement",
-      "name": "sum"
+      "name": "NAME"
     }
   ],
   "previousStatement": null,
@@ -288,12 +305,12 @@ Blockly.defineBlocksWithJsonArray(
   "helpUrl": ""
 },
 {
-  "type": "shipping_rule",
-  "message0": "Set Shipping Rule %1",
+  "type": "rule_implementation",
+  "message0": "Rule Implementation %1",
   "args0": [
     {
       "type": "input_statement",
-      "name": "shipping"
+      "name": "NAME"
     }
   ],
   "previousStatement": null,
@@ -301,6 +318,4 @@ Blockly.defineBlocksWithJsonArray(
   "colour": 230,
   "tooltip": "",
   "helpUrl": ""
-}
-]
-);
+}]);

@@ -30,46 +30,84 @@ goog.require('Blockly.JavaScript');
 
 
 
-Blockly.JavaScript['product'] = function(block) {
-  var value_p_name = Blockly.JavaScript.valueToCode(block, 'p_name', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_p_price = Blockly.JavaScript.valueToCode(block, 'p_price', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_p_category = Blockly.JavaScript.valueToCode(block, 'p_category', Blockly.JavaScript.ORDER_ATOMIC);
+Blockly.JavaScript['env'] = function(block) {
+  var checkbox_live = block.getFieldValue('live') ;
+  var checkbox_staging = block.getFieldValue('staging');
   // TODO: Assemble JavaScript into code variable.
-  var code = '...;\n';
+  var code ;
+  if(checkbox_live=="TRUE")
+  {
+    code = 0;
+  }
+  if(checkbox_staging=="TRUE")
+  {
+    code = 1;
+  }
+  if(checkbox_staging=="TRUE" && checkbox_live=="TRUE")
+  {
+    code = 2;
+  }
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript['itemcondition'] = function(block) {
+  var statements_name = Blockly.JavaScript.statementToCode(block, 'NAME');
+  // TODO: Assemble JavaScript into code variable.
+  var code = statements_name;
   return code;
 };
 
-Blockly.JavaScript['product_name'] = function(block) {
-  var text_p_name = block.getFieldValue('p_name');
+Blockly.JavaScript['ordercondition'] = function(block) {
+  var statements_name = Blockly.JavaScript.statementToCode(block, 'NAME');
   // TODO: Assemble JavaScript into code variable.
-  var code = text_p_name;
-  // TODO: Change ORDER_NONE to the correct strength.
-  return [code, Blockly.JavaScript.ORDER_NONE];
+  var code = statements_name;
+  return code;
 };
 
-Blockly.JavaScript['product_price'] = function(block) {
-  var number_p_price = block.getFieldValue('p_price');
+Blockly.JavaScript['discounttype'] = function(block) {
+  var statements_name = Blockly.JavaScript.statementToCode(block, 'NAME');
   // TODO: Assemble JavaScript into code variable.
-  var code = number_p_price;
-  // TODO: Change ORDER_NONE to the correct strength.
-  return [code, Blockly.JavaScript.ORDER_NONE];
+  var code = statements_name;
+  return code;
 };
 
-Blockly.JavaScript['product_category'] = function(block) {
-  var dropdown_name = block.getFieldValue('NAME');
+Blockly.JavaScript['discountvalue'] = function(block) {
+  var statements_name = Blockly.JavaScript.statementToCode(block, 'NAME');
   // TODO: Assemble JavaScript into code variable.
-  var code = dropdown_name;
-  // TODO: Change ORDER_NONE to the correct strength.
-  return [code, Blockly.JavaScript.ORDER_NONE];
+  var code = statements_name;
+  return code;
 };
-Blockly.JavaScript['set_rule'] = function(block) {
-  var dropdown_p_category = block.getFieldValue('p_category');
+
+Blockly.JavaScript['maximumoff'] = function(block) {
+  var statements_name = Blockly.JavaScript.statementToCode(block, 'NAME');
   // TODO: Assemble JavaScript into code variable.
-  var code = dropdown_p_category;
-  // TODO: Chang ORDER_NONE to the correct strength.
-  return [code, Blockly.JavaScript.ORDER_NONE];
+  var code = statements_name;
+  return code;
 };
-Blockly.JavaScript['p_off'] = function(block) {
+
+Blockly.JavaScript['addcartitem'] = function(block) {
+  var statements_name = Blockly.JavaScript.statementToCode(block, 'NAME');
+  // TODO: Assemble JavaScript into code variable.
+  var code = statements_name;
+  return code;
+};
+
+Blockly.JavaScript['catalogrule'] = function(block) {
+  var statements_name = Blockly.JavaScript.statementToCode(block, 'NAME');
+  // TODO: Assemble JavaScript into code variable.
+  var code = statements_name;
+  return code;
+};
+
+Blockly.JavaScript['cartrule'] = function(block) {
+  var statements_name = Blockly.JavaScript.statementToCode(block, 'NAME');
+  // TODO: Assemble JavaScript into code variable.
+  var code = statements_name;
+  return code;
+};
+
+Blockly.JavaScript['price'] = function(block) {
   var number_name = block.getFieldValue('NAME');
   // TODO: Assemble JavaScript into code variable.
   var code = number_name;
@@ -77,51 +115,62 @@ Blockly.JavaScript['p_off'] = function(block) {
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
-Blockly.JavaScript['payment'] = function(block) {
-  var dropdown_option = block.getFieldValue('option');
+Blockly.JavaScript['brand'] = function(block) {
+  var text_name = block.getFieldValue('NAME');
   // TODO: Assemble JavaScript into code variable.
-  var code = dropdown_option;
+  var code = text_name;
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+Blockly.JavaScript['rulename'] = function(block) {
+  var text_name = block.getFieldValue('NAME');
+  var statements_name = Blockly.JavaScript.statementToCode(block, 'NAME');
+  // TODO: Assemble JavaScript into code variable.
+  var code = statements_name;
   return code;
+};
+Blockly.JavaScript['discount_type'] = function(block) {
+  var checkbox_fixed = block.getFieldValue('fixed');
+  var checkbox_name = block.getFieldValue('NAME');
+  // TODO: Assemble JavaScript into code variable.
+  var code;
+  if(checkbox_fixed=="TRUE")
+  {
+    code = 0;
+  }
+  if(checkbox_name=="TRUE")
+  {
+    code = 1;
+  }
+  if(checkbox_name=="TRUE" && checkbox_fixed=="TRUE")
+  {
+    code = 2;
+  }
+  
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
-Blockly.JavaScript['cart_item'] = function(block) {
-  var statements_cart = Blockly.JavaScript.statementToCode(block, 'cart');
+
+Blockly.JavaScript['category'] = function(block) {
+  var text_name = block.getFieldValue('NAME');
   // TODO: Assemble JavaScript into code variable.
-  var code = statements_cart;
-  return code;
-};
-Blockly.JavaScript['set_catalog_rule'] = function(block) {
-  var statements_c_discount = Blockly.JavaScript.statementToCode(block, 'c_discount');
-  // TODO: Assemble JavaScript into code variable.
-  var code = statements_c_discount;
-  return code;
+  var code = text_name;
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
-Blockly.JavaScript['cart_rules'] = function(block) {
-  var statements_cart_rule = Blockly.JavaScript.statementToCode(block, 'cart_rule');
+Blockly.JavaScript['definition'] = function(block) {
+  var statements_name = Blockly.JavaScript.statementToCode(block, 'NAME');
   // TODO: Assemble JavaScript into code variable.
-  var code = statements_cart_rule;
-  return code;
+  var code = statements_name;
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
-Blockly.JavaScript['multi_cond'] = function(block) {
-  var statements_con1 = Blockly.JavaScript.statementToCode(block, 'con1');
-  var statements_con2 = Blockly.JavaScript.statementToCode(block, 'con2');
+Blockly.JavaScript['rule_implementation'] = function(block) {
+  var statements_name = Blockly.JavaScript.statementToCode(block, 'NAME');
   // TODO: Assemble JavaScript into code variable.
-  var code = statements_con1+statements_con2;
-  return code;
-};
-
-Blockly.JavaScript['sum_block'] = function(block) {
-  var statements_sum = Blockly.JavaScript.statementToCode(block, 'sum');
-  // TODO: Assemble JavaScript into code variable.
-  var code = statements_sum;
-  return code;
-};
-
-Blockly.JavaScript['shipping_rule'] = function(block) {
-  var statements_shipping = Blockly.JavaScript.statementToCode(block, 'shipping');
-  // TODO: Assemble JavaScript into code variable.
-  var code = statements_shipping;
+  var code = statements_name;
   return code;
 };
